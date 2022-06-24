@@ -1,0 +1,10 @@
+[
+    {
+        "name": "example",
+        "input_dir": "~/Data/project_WIP/KB_sampling/example",
+        "output_dir": "~/Data/project_WIP/tokenized_samples/example",
+        "converter": "converters.KB_sampling.convert",
+        "tokenizer": "tokenizers.spacy_tokenizer.tokenize",
+        "n_processes": 1
+    }
+]
