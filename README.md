@@ -20,7 +20,7 @@ The output collection is of the form:
 [
     [
         label,
-        list of token lists
+        list of sentences as token lists
     ],
     ...
 ]

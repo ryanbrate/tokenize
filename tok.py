@@ -49,13 +49,13 @@ def main():
             ]
 
             # ------
-            # create lemmatized versions of each collection
+            # create tokenized versions of each collection
             # ------
 
             # iterable of (collection_path, config) tuples
             arguments: typing.Iterator[tuple] = zip(collections_paths, cycle([config]))
 
-            # perform the lemmatization on all collections for the current config
+            # perform the tokenization on all collections for the current config
             if n_processes == 1:
                 list(starmap(act_on_collection, arguments))
             else:
@@ -77,10 +77,10 @@ def act_on_collection(collection_path: pathlib.Path, config: dict) -> None:
     # convert the collection to the format assumed by this script
     converted_collection = [convert(t) for t in collection]
 
-    # get a lemmatized version of the collection
+    # get a tokenized version of the collection
     tokenized_collection = [tok(t) for t in converted_collection]
 
-    # get the Path for where the lemmatized collection will be sent
+    # get the Path for where the tokenized collection will be sent
     collection_name: str = re.match(".*/(.+).json", str(collection_path)).groups()[0]
 
     # save
