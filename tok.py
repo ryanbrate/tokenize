@@ -52,18 +52,30 @@ def main():
             # create tokenized versions of each collection
             # ------
 
-            # iterable of (collection_path, config) tuples
-            arguments: typing.Iterator[tuple] = zip(collections_paths, cycle([config]))
-
-            # perform the tokenization on all collections for the current config
+            # single process
             if n_processes == 1:
-                list(starmap(act_on_collection, arguments))
+
+                for collection_path in collections_paths:
+                    apply_to_collection(collection_path, config)
+
+            # multiprocessing
             else:
+
+                # iterable of (collection_path, config) tuples to be passed to
+                # apply_to_collection()
+                arguments: typing.Iterator[tuple] = zip(
+                    collections_paths, cycle([config])
+                )
+
+                # run 
                 pool = multiprocessing.Pool(n_processes)
-                pool.starmap(act_on_collection, arguments)
+                pool.starmap(apply_to_collection, arguments)
 
 
-def act_on_collection(collection_path: pathlib.Path, config: dict) -> None:
+def apply_to_collection(collection_path: pathlib.Path, config: dict) -> None:
+    """Apply converter, and then tokenizer to a collection and the save to
+    config["output_dir"]
+    """
 
     # load the config variables
     output_dir = pathlib.Path(config["output_dir"]).expanduser().resolve()
@@ -72,10 +84,10 @@ def act_on_collection(collection_path: pathlib.Path, config: dict) -> None:
 
     # load the collection
     with open(collection_path, "r") as f:
-        collection = json.load(f)  # list of (ocr name, ocr) tuples
+        collection = json.load(f) 
 
     # convert the collection to the format assumed by this script
-    converted_collection = [convert(t) for t in collection]
+    converted_collection = convert(collection)
 
     # get a tokenized version of the collection
     tokenized_collection = [tok(t) for t in converted_collection]

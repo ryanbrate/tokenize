@@ -1,54 +1,52 @@
 """
 The output from the KB_sampling/sample.py script is as follows:
 
-# list of tuples
+# a json collection, resulting from a query
 [
-    # e.g., typing tuples of (ocr_name, ocr as a dict)
+    # tuple of (ocr_name, ocr as a dict)
     [
         ocr_name,
         {
             "text": {
                 "title": # str
-                "p": # list[str] or str or None?
+                "p": # list[str] or str or null?
             }
         }
     ],
     ...
 ]
 
-convert to each (ocr_name, ocr as a dict) tuple into ...
+convert to collection to the form:
 [
-    label,
-    # list of strings
-],
+    # the converted tuple
+    [
+        ocr_name,
+        [
+            "some sentence",
+            ...
+        ]  # list of strings
+    ],
+    ...
+]
 
 """
 
-def convert(t)->tuple:
-    """ Return (ocr_name::str, list_of_strings::list[str]) from an ocr sample
-        produced by KB_sampling.
+def convert(collection: list)->list:
 
-        Args:
-            t: (ocr_name::str, ocr::dict)
-    """
+    converted_collection = []
 
-    ocr_name, ocr = t
+    for t in collection:
 
-    # get the list_of_strings
-    if type(ocr["text"]["p"]) == str:
-        list_of_strings = [ocr["text"]["p"]]
-    elif type(ocr["text"]["p"]) == list: 
-        list_of_strings = ocr["text"]["p"]
-    else:
-        list_of_strings = []
+        ocr_name, ocr = t
 
-    return (ocr_name, list_of_strings)
+        # get the list_of_strings
+        if type(ocr["text"]["p"]) == str:
+            list_of_strings = [ocr["text"]["p"]]
+        elif type(ocr["text"]["p"]) == list: 
+            list_of_strings = ocr["text"]["p"]
+        else:
+            list_of_strings = []
 
+        converted_collection.append((ocr_name, list_of_strings))
 
-       
-
-
-
-
-    
-
+    return converted_collection
