@@ -4,6 +4,7 @@ import pathlib
 import re
 import typing
 from itertools import cycle, starmap
+from tqdm import tqdm
 
 # load all converters
 for p in pathlib.Path("converters").glob("*.py"):
@@ -55,7 +56,7 @@ def main():
             # single process
             if n_processes == 1:
 
-                for collection_path in collections_paths:
+                for collection_path in tqdm(collections_paths):
                     apply_to_collection(collection_path, config)
 
             # multiprocessing
@@ -68,6 +69,7 @@ def main():
                 )
 
                 # run 
+                print(f"running tokenization on collections in parallel...")
                 pool = multiprocessing.Pool(n_processes)
                 pool.starmap(apply_to_collection, arguments)
 

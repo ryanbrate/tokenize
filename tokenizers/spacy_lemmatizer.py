@@ -21,20 +21,6 @@ nlp = spacy.load("nl_core_news_sm")
 
 
 def tokenize(document: tuple) -> tuple:
-    """
-
-    Args:
-        [
-            label,
-            # list of strings
-        ]
-
-    Return:
-        [
-            label,
-            # list of sentences as token lists
-        ]
-    """
 
     label, list_of_strings = document
 
