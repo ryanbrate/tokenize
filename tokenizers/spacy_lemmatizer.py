@@ -6,7 +6,7 @@ Each passed tuple has the form ...
     # list of strings
 ]
 
-Return a tokenized version of the tuple of the form ...
+Return a lemmatized & tokenized version of the tuple of the form ...
 [
     label,
     [
@@ -43,7 +43,7 @@ def tokenize(document: tuple) -> tuple:
 
         doc = nlp(s)
         for sent in doc.sents:
-            tokens: list[str] = [t.text for t in sent]
+            tokens: list[str] = [t.lemma_ for t in sent]
             sentences.append(tokens)
 
     # finally:
