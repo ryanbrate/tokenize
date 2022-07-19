@@ -1,10 +1,19 @@
 [
     {
-        "name": "example",
-        "input_dir": "~/Data/project_WIP/KB_sampling/example",
-        "output_dir": "~/Data/project_WIP/tokenized_samples/example",
+        "name": "publication_date_content__sabio_distribution__tokenized",
+        "input_dir": "~/Data/Feature_Exploration/KB_sampling/publication_date_content__sabio_distribution",
+        "output_dir": "~/Data/Feature_Exploration/tokenize/publication_date_content__sabio_distribution__tokenized",
         "converter": "converters.KB_sampling.convert",
         "tokenizer": "tokenizers.spacy_tokenizer.tokenize",
-        "n_processes": 1
+        "n_processes": 8
+    },
+    {
+        "name": "publication_date_content__sabio_distribution__lemmatized",
+        "input_dir": "~/Data/Feature_Exploration/KB_sampling/publication_date_content__sabio_distribution",
+        "output_dir": "~/Data/Feature_Exploration/tokenize/publication_date_content__sabio_distribution__lemmatized",
+        "converter": "converters.KB_sampling.convert",
+        "tokenizer": "tokenizers.spacy_lemmatizer.tokenize",
+        "n_processes": 8
     }
+
 ]
