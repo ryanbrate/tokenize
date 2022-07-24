@@ -24,7 +24,9 @@ def main():
         configs = json.load(f)
 
     # iterate over configs
-    for config in configs:
+    for i, config in enumerate(configs):
+
+        print(f"running config {i}")
 
         input_dir: pathlib.Path = (
             pathlib.Path(config["input_dir"]).expanduser().resolve()
@@ -36,7 +38,7 @@ def main():
 
         if output_dir.exists():
 
-            print(f"{output_dir} exists ... skipping")
+            print(f"\t{output_dir} exists ... skipping")
             continue
 
         else:
@@ -69,9 +71,14 @@ def main():
                 )
 
                 # run 
-                print(f"running tokenization on collections in parallel...")
+                print(f"\trunning tokenization on collections in parallel...")
                 pool = multiprocessing.Pool(n_processes)
                 pool.starmap(apply_to_collection, arguments)
+
+        # save the config
+        with open(output_dir / "config.json", "w") as f:
+            json.dump(config, f, indent=4, ensure_ascii=False)
+
 
 
 def apply_to_collection(collection_path: pathlib.Path, config: dict) -> None:
@@ -99,7 +106,7 @@ def apply_to_collection(collection_path: pathlib.Path, config: dict) -> None:
 
     # save
     with open(output_dir / f"{collection_name}.json", "w") as f:
-        json.dump(tokenized_collection, f, indent=4, ensure_ascii=True)
+        json.dump(tokenized_collection, f, indent=4, ensure_ascii=False)
 
 
 if __name__ == "__main__":
