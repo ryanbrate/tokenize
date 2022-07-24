@@ -22,6 +22,7 @@ nlp = spacy.load("nl_core_news_sm")
 
 def tokenize(document: tuple) -> tuple:
     """
+    return tokenized (+lowercased) versions of input dataset
 
     Args:
         [
@@ -59,7 +60,7 @@ def tokenize(document: tuple) -> tuple:
         for s in list_of_strings:
             doc = nlp(s)
             for sent in doc.sents:
-                tokens: list[str] = [t.text for t in sent]
+                tokens: list[str] = [t.text.lower() for t in sent]
                 sentences.append(tokens)
 
     # finally:
